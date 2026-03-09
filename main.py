@@ -37,7 +37,7 @@ def add(a: str, b: str):
 @app.get("/subtract/{a}/{b}", status_code=200)
 def subtract(a: str, b: str):
    """
-   Subtract two numbers together.
+   Subtract one number from another.
   
    Parameters:
    - a: First number
@@ -77,7 +77,7 @@ def multiply(a: str, b: str):
 @app.get("/divide/{a}/{b}", status_code=200)
 def divide(a: str, b: str):
    """
-   Divide two numbers together.
+   Divide two numbers.
   
    Parameters:
    - a: First number
@@ -121,7 +121,7 @@ def average(a: str, b: str, c: str):
 @app.get("/tip/{a}/{b}", status_code=200)
 def tip(a: str, b: str):
    """
-   Calculate the amount you want to tip.
+   Calculate the amount you want to tip on a bill.
   
    Parameters:
    - a: Bill total
@@ -135,7 +135,7 @@ def tip(a: str, b: str):
        b = float(b)
    except ValueError:
        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Error status 422. Both 'a' and 'b' must be valid numbers")
-   return {"operation": "tip", "bill": a, "tip %": b, "tip": a * (b/100)}
+   return {"operation": "tip", "bill": a, "tip %": b, "tip": f"${round(a * (b / 100), 2):.2f}"}
 
 
 @app.get("/gas/{a}/{b}/{c}", status_code=200)
@@ -156,5 +156,5 @@ def gas(a: str, b: str, c: str):
        b = float(b)
        c = float(c)
    except ValueError:
-       raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Error status 422. Both 'a' and 'b' must be valid numbers")
-   return {"operation": "gas", "mpg": a, "gas cost": b, "distance": c, "trip cost": (c/a)*b}
+       raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Error status 422. All parameters must be valid numbers")
+   return {"operation": "gas", "mpg": a, "gas cost": b, "distance": c, "trip cost": f"${round((c/a)*b, 2):.2f}"}
